@@ -72,72 +72,98 @@
         <p>Выберите соотношение компонентов:</p>
         <select id="ratio">
             <option value="100:2">100:2</option>
-            <option value="60:40">60:40</option>
-            <option value="1:2.5">1:2.5</option>
             <option value="10:1">10:1</option>
-            <option value="40:60">40:60</option>
+            <option value="1:2.5">1:2.5</option>
+            <option value="60:40">60:40</option>
         </select>
         <br><br>
-        <label for="totalWeight">Общий вес (г):</label>
-        <input type="number" id="totalWeight" placeholder="Введите общий вес">
-        <button onclick="calculateComponents()">Рассчитать</button>
+        <div id="inputFields">
+            <!-- Поля для ввода будут динамически меняться -->
+        </div>
+        <button onclick="calculate()">Рассчитать</button>
 
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        function calculateComponents() {
-            // Получаем общий вес из поля ввода
-            const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+        // Функция для обновления полей ввода в зависимости от выбранного соотношения
+        function updateInputFields() {
+            const ratio = document.getElementById('ratio').value;
+            const inputFieldsDiv = document.getElementById('inputFields');
+            inputFieldsDiv.innerHTML = ''; // Очищаем предыдущие поля
 
-            // Проверяем, что введено корректное число
-            if (isNaN(totalWeight) || totalWeight <= 0) {
-                document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
-                return;
+            if (ratio === "100:2" || ratio === "10:1") {
+                // Для соотношений 100:2 и 10:1
+                inputFieldsDiv.innerHTML = `
+                    <label for="componentA">Количество компонента A (г):</label>
+                    <input type="number" id="componentA" placeholder="Введите вес">
+                `;
+            } else if (ratio === "1:2.5" || ratio === "60:40") {
+                // Для соотношений 1:2.5 и 60:40
+                inputFieldsDiv.innerHTML = `
+                    <label for="totalWeight">Общий вес (г):</label>
+                    <input type="number" id="totalWeight" placeholder="Введите общий вес">
+                `;
             }
+        }
 
-            // Получаем выбранное соотношение
+        // Функция расчета
+        function calculate() {
             const ratio = document.getElementById('ratio').value;
 
-            let ratioA, ratioB;
-            switch (ratio) {
-                case "100:2":
+            if (ratio === "100:2" || ratio === "10:1") {
+                // Расчет для соотношений 100:2 и 10:1
+                const componentA = parseFloat(document.getElementById('componentA').value);
+
+                if (isNaN(componentA) || componentA <= 0) {
+                    document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
+                    return;
+                }
+
+                let ratioA, ratioB;
+                if (ratio === "100:2") {
                     ratioA = 100;
                     ratioB = 2;
-                    break;
-                case "60:40":
-                    ratioA = 60;
-                    ratioB = 40;
-                    break;
-                case "1:2.5":
-                    ratioA = 1;
-                    ratioB = 2.5;
-                    break;
-                case "10:1":
+                } else if (ratio === "10:1") {
                     ratioA = 10;
                     ratioB = 1;
-                    break;
-                case "40:60":
-                    ratioA = 40;
-                    ratioB = 60;
-                    break;
-                default:
-                    ratioA = 100;
-                    ratioB = 2;
+                }
+
+                const componentB = (componentA * ratioB) / ratioA;
+                document.getElementById('result').innerHTML = `Количество компонента B: ${componentB.toFixed(2)} г`;
+            } else if (ratio === "1:2.5" || ratio === "60:40") {
+                // Расчет для соотношений 1:2.5 и 60:40
+                const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+
+                if (isNaN(totalWeight) || totalWeight <= 0) {
+                    document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
+                    return;
+                }
+
+                let ratioA, ratioB;
+                if (ratio === "1:2.5") {
+                    ratioA = 1;
+                    ratioB = 2.5;
+                } else if (ratio === "60:40") {
+                    ratioA = 60;
+                    ratioB = 40;
+                }
+
+                const totalRatio = ratioA + ratioB;
+                const weightA = (totalWeight * ratioA) / totalRatio;
+                const weightB = (totalWeight * ratioB) / totalRatio;
+
+                document.getElementById('result').innerHTML = 
+                    `Компонент A: ${weightA.toFixed(2)} г<br>` +
+                    `Компонент B: ${weightB.toFixed(2)} г`;
             }
-
-            // Расчет общего количества частей
-            const totalRatio = ratioA + ratioB;
-
-            // Расчет веса каждого компонента
-            const weightA = (totalWeight * ratioA) / totalRatio;
-            const weightB = (totalWeight * ratioB) / totalRatio;
-
-            // Вывод результата
-            document.getElementById('result').innerHTML = 
-                `Компонент A: ${weightA.toFixed(2)} г<br>` +
-                `Компонент B: ${weightB.toFixed(2)} г`;
         }
+
+        // Инициализация полей ввода при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            updateInputFields();
+            document.getElementById('ratio').addEventListener('change', updateInputFields);
+        });
     </script>
 </body>
 </html>
