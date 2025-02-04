@@ -75,22 +75,23 @@
             <option value="60:40">60:40</option>
             <option value="1:2.5">1:2.5</option>
             <option value="10:1">10:1</option>
+            <option value="40:60">40:60</option>
         </select>
         <br><br>
-        <label for="componentA">Количество компонента A (г):</label>
-        <input type="number" id="componentA" placeholder="Введите вес">
-        <button onclick="calculateComponentB()">Рассчитать</button>
+        <label for="totalWeight">Общий вес (г):</label>
+        <input type="number" id="totalWeight" placeholder="Введите общий вес">
+        <button onclick="calculateComponents()">Рассчитать</button>
 
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        function calculateComponentB() {
-            // Получаем значение компонента A из поля ввода
-            const componentA = parseFloat(document.getElementById('componentA').value);
+        function calculateComponents() {
+            // Получаем общий вес из поля ввода
+            const totalWeight = parseFloat(document.getElementById('totalWeight').value);
 
             // Проверяем, что введено корректное число
-            if (isNaN(componentA) || componentA <= 0) {
+            if (isNaN(totalWeight) || totalWeight <= 0) {
                 document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
                 return;
             }
@@ -116,17 +117,26 @@
                     ratioA = 10;
                     ratioB = 1;
                     break;
+                case "40:60":
+                    ratioA = 40;
+                    ratioB = 60;
+                    break;
                 default:
                     ratioA = 100;
                     ratioB = 2;
             }
 
-            // Расчет компонента B по формуле
+            // Расчет общего количества частей
             const totalRatio = ratioA + ratioB;
-            const componentB = (componentA * ratioB) / ratioA;
+
+            // Расчет веса каждого компонента
+            const weightA = (totalWeight * ratioA) / totalRatio;
+            const weightB = (totalWeight * ratioB) / totalRatio;
 
             // Вывод результата
-            document.getElementById('result').innerHTML = `Количество компонента B: ${componentB.toFixed(2)} г`;
+            document.getElementById('result').innerHTML = 
+                `Компонент A: ${weightA.toFixed(2)} г<br>` +
+                `Компонент B: ${weightB.toFixed(2)} г`;
         }
     </script>
 </body>
