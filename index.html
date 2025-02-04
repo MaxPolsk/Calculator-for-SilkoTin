@@ -7,62 +7,116 @@
     <style>
         /* Общие стили */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('https://cdn.pixabay.com/photo/2023/03/15/12/34/background-7853698_1280.jpg'); /* Фоновое изображение */
+            background: linear-gradient(135deg, #6e8efb, #a777e3); /* Градиентный фон */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
 
         .calculator {
-            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон */
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
+            overflow: hidden;
         }
 
         h1 {
             font-size: 24px;
             color: #333;
+            margin-bottom: 15px;
         }
 
-        label {
-            font-size: 18px;
-            margin-right: 10px;
+        .display {
+            background-color: #222;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 60px;
+            overflow-x: auto;
+            white-space: nowrap;
+            text-align: right;
         }
 
-        input, select {
-            padding: 5px;
-            font-size: 16px;
-            width: 100px;
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
+        .button {
+            background: linear-gradient(145deg, #f0f0f0, #d9d9d9);
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
             cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .button:hover {
+            transform: scale(1.05);
         }
 
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #28a745;
+        .button:active {
+            transform: scale(0.95);
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .button.operator {
+            background: linear-gradient(145deg, #ff9500, #e68a00);
+            color: white;
+        }
+
+        .button.clear {
+            background: linear-gradient(145deg, #ff3b30, #e63329);
+            color: white;
+        }
+
+        .button.equal {
+            background: linear-gradient(145deg, #34c759, #2da94f);
+            color: white;
+            grid-column: span 2; /* Кнопка "=" занимает два места */
+        }
+
+        .button.backspace {
+            background: linear-gradient(145deg, #555, #777);
+            color: white;
+        }
+
+        .button.zero {
+            grid-column: span 2; /* Кнопка "0" занимает два места */
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 15px;
+            }
+            .display {
+                font-size: 1.8rem;
+                height: 50px;
+            }
+            .button {
+                font-size: 1.2rem;
+                height: 50px;
+            }
         }
     </style>
 </head>
@@ -80,7 +134,7 @@
         <div id="inputFields">
             <!-- Поля для ввода будут динамически меняться -->
         </div>
-        <button onclick="calculate()">Рассчитать</button>
+        <button class="button" onclick="calculate()">=</button>
 
         <div class="result" id="result"></div>
     </div>
@@ -130,7 +184,7 @@
                 }
 
                 const componentB = (componentA * ratioB) / ratioA;
-                document.getElementById('result').innerHTML = `Количество компонента B: ${componentB.toFixed(2)} г`;
+                document.getElementById('result').innerHTML = `Компонент B: ${componentB.toFixed(2)} г`;
             } else if (ratio === "1:2.5" || ratio === "60:40") {
                 // Расчет для соотношений 1:2.5 и 60:40
                 const totalWeight = parseFloat(document.getElementById('totalWeight').value);
