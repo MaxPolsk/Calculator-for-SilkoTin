@@ -21,11 +21,11 @@
 
         .calculator {
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
             overflow: hidden;
         }
@@ -40,7 +40,7 @@
             background-color: #222;
             color: #fff;
             font-family: 'Courier New', monospace;
-            font-size: 2rem;
+            font-size: 1.8rem;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -50,72 +50,69 @@
             text-align: right;
         }
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+        .input-fields {
+            margin-bottom: 20px;
         }
 
-        .button {
-            background: linear-gradient(145deg, #f0f0f0, #d9d9d9);
+        .input-fields label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .input-fields input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .input-fields input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .calculate-button {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 30px;
             border: none;
             border-radius: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.2s;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        .button:hover {
+        .calculate-button:hover {
             transform: scale(1.05);
         }
 
-        .button:active {
+        .calculate-button:active {
             transform: scale(0.95);
             box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        .button.operator {
-            background: linear-gradient(145deg, #ff9500, #e68a00);
-            color: white;
-        }
-
-        .button.clear {
-            background: linear-gradient(145deg, #ff3b30, #e63329);
-            color: white;
-        }
-
-        .button.equal {
-            background: linear-gradient(145deg, #34c759, #2da94f);
-            color: white;
-            grid-column: span 2; /* Кнопка "=" занимает два места */
-        }
-
-        .button.backspace {
-            background: linear-gradient(145deg, #555, #777);
-            color: white;
-        }
-
-        .button.zero {
-            grid-column: span 2; /* Кнопка "0" занимает два места */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #28a745;
         }
 
         @media (max-width: 480px) {
             .calculator {
-                padding: 15px;
+                padding: 20px;
             }
             .display {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 height: 50px;
             }
-            .button {
-                font-size: 1.2rem;
-                height: 50px;
+            .calculate-button {
+                font-size: 1rem;
+                padding: 12px 25px;
             }
         }
     </style>
@@ -131,10 +128,10 @@
             <option value="60:40">60:40</option>
         </select>
         <br><br>
-        <div id="inputFields">
+        <div id="inputFields" class="input-fields">
             <!-- Поля для ввода будут динамически меняться -->
         </div>
-        <button class="button" onclick="calculate()">=</button>
+        <button class="calculate-button" onclick="calculate()">Рассчитать</button>
 
         <div class="result" id="result"></div>
     </div>
