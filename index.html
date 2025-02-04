@@ -1,43 +1,9 @@
-/* Графические стили для кнопок */
-.button.number {
-    background-image: url('https://img.icons8.com/fluency/48/000000/number.png'); /* Изображение для чисел */
-    background-color: #fff;
-    color: #000;
-    background-size: cover;
-}
-
-.button.operator {
-    background-image: url('https://img.icons8.com/color/48/000000/multiply.png'); /* Изображение для операторов */
-    background-color: #ff9500;
-    color: white;
-    background-size: cover;
-}
-
-.button.clear {
-    background-image: url('https://img.icons8.com/color/48/000000/clear-symbol.png'); /* Изображение для "C" */
-    background-color: #ff3b30;
-    color: white;
-    background-size: cover;
-}
-
-.button.equal {
-    background-image: url('https://img.icons8.com/color/48/000000/equal-sign.png'); /* Изображение для "=" */
-    background-color: #34c759;
-    color: white;
-    background-size: cover;
-}
-
-.button.backspace {
-    background-image: url('https://img.icons8.com/color/48/000000/backspace.png'); /* Изображение для "←" */
-    background-color: #555;
-    color: white;
-    background-size: cover;
-}!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор</title>
+    <title>Калькулятор компонентов A и B</title>
     <style>
         /* Общие стили */
         body {
@@ -59,187 +25,85 @@
             border-radius: 15px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
             text-align: center;
         }
 
-        .display {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 2rem;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            white-space: nowrap;
+        h1 {
+            font-size: 24px;
+            color: #333;
         }
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+        label {
+            font-size: 18px;
+            margin-right: 10px;
         }
 
-        .button {
-            background-color: #e0e0e0;
+        input {
+            padding: 5px;
+            font-size: 16px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
+            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.1s, background-color 0.3s;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-size: cover; /* Для изображений */
         }
 
-        .button:hover {
-            transform: scale(1.05);
+        button:hover {
+            background-color: #0056b3;
         }
 
-        .button:active {
-            transform: scale(0.95);
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #28a745;
         }
 
         /* Графические стили для кнопок */
-        .button.number {
-            background-image: url('https://i.imgur.com/1a2b3c4.png'); /* Пример изображения для чисел */
-            background-color: #fff;
-            color: #000;
-        }
-
-        .button.operator {
-            background-image: url('https://i.imgur.com/5d6e7f8.png'); /* Пример изображения для операторов */
-            background-color: #ff9500;
-            color: white;
-        }
-
-        .button.clear {
-            background-image: url('https://i.imgur.com/9g8h7i6.png'); /* Пример изображения для "C" */
-            background-color: #ff3b30;
-            color: white;
-        }
-
-        .button.equal {
-            background-image: url('https://i.imgur.com/abcdefg.png'); /* Пример изображения для "=" */
-            background-color: #34c759;
-            color: white;
-        }
-
-        .button.backspace {
-            background-image: url('https://i.imgur.com/hijklmn.png'); /* Пример изображения для "←" */
-            background-color: #555;
-            color: white;
+        button {
+            background-image: url('https://img.icons8.com/color/48/000000/calculate.png'); /* Иконка для кнопки */
+            background-size: 24px;
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 30px;
         }
     </style>
 </head>
 <body>
     <div class="calculator">
-        <!-- Дисплей -->
-        <div class="display" id="display">0</div>
-        <!-- Кнопки -->
-        <div class="buttons">
-            <!-- Первая строка: 7 8 9 ÷ -->
-            <button class="button number" onclick="appendNumber('7')">7</button>
-            <button class="button number" onclick="appendNumber('8')">8</button>
-            <button class="button number" onclick="appendNumber('9')">9</button>
-            <button class="button operator" onclick="appendOperator('/')">÷</button>
-            <!-- Вторая строка: 4 5 6 × -->
-            <button class="button number" onclick="appendNumber('4')">4</button>
-            <button class="button number" onclick="appendNumber('5')">5</button>
-            <button class="button number" onclick="appendNumber('6')">6</button>
-            <button class="button operator" onclick="appendOperator('*')">×</button>
-            <!-- Третья строка: 1 2 3 − -->
-            <button class="button number" onclick="appendNumber('1')">1</button>
-            <button class="button number" onclick="appendNumber('2')">2</button>
-            <button class="button number" onclick="appendNumber('3')">3</button>
-            <button class="button operator" onclick="appendOperator('-')">−</button>
-            <!-- Четвертая строка: 0 . % = -->
-            <button class="button number zero" onclick="appendNumber('0')">0</button>
-            <button class="button number" onclick="appendNumber('.')">.</button>
-            <button class="button operator" onclick="applyPercentage()">%</button>
-            <button class="button equal" onclick="calculateResult()">=</button>
-            <!-- Нижняя строка: C ← + -->
-            <button class="button clear" onclick="clearDisplay()">C</button>
-            <button class="button backspace" onclick="backspace()">←</button>
-            <button class="button operator" onclick="appendOperator('+')">+</button>
-        </div>
+        <h1>Расчет компонентов A и B</h1>
+        <p>Соотношение A:B = 100:2</p>
+        <label for="componentA">Количество компонента A (г):</label>
+        <input type="number" id="componentA" placeholder="Введите вес">
+        <button onclick="calculateComponentB()">Рассчитать</button>
+
+        <div class="result" id="result"></div>
     </div>
 
     <script>
-        let expression = ''; // Хранит текущее выражение
+        function calculateComponentB() {
+            // Получаем значение компонента A из поля ввода
+            const componentA = parseFloat(document.getElementById('componentA').value);
 
-        // Добавление числа
-        function appendNumber(number) {
-            if (number === '.' && expression.includes('.')) return;
-            if (expression === '0' && number !== '.') expression = '';
-            expression += number;
-            updateDisplay();
-        }
-
-        // Добавление оператора
-        function appendOperator(operator) {
-            if (expression === '') return;
-            const lastChar = expression[expression.length - 1];
-            if (['+', '-', '*', '/'].includes(lastChar)) {
-                expression = expression.slice(0, -1) + operator;
-            } else {
-                expression += operator;
+            // Проверяем, что введено корректное число
+            if (isNaN(componentA) || componentA <= 0) {
+                document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
+                return;
             }
-            updateDisplay();
-        }
 
-        // Применение процента
-        function applyPercentage() {
-            try {
-                const lastNumber = getLastNumber(expression);
-                if (!lastNumber) return;
-                const percentageValue = (parseFloat(lastNumber) / 100).toString();
-                expression = expression.slice(0, -lastNumber.length) + percentageValue;
-                updateDisplay();
-            } catch (error) {
-                updateDisplay('Ошибка');
-                setTimeout(() => updateDisplay('0'), 1000);
-            }
-        }
+            // Расчет компонента B по формуле
+            const ratioA = 100;
+            const ratioB = 2;
+            const componentB = (componentA * ratioB) / ratioA;
 
-        // Получение последнего числа из выражения
-        function getLastNumber(expr) {
-            const match = expr.match(/(\d+\.?\d*)$/);
-            return match ? match[0] : '';
-        }
-
-        // Вычисление результата
-        function calculateResult() {
-            try {
-                const result = eval(expression);
-                expression = result.toString();
-                updateDisplay();
-            } catch (error) {
-                updateDisplay('Ошибка');
-                setTimeout(() => updateDisplay('0'), 1000);
-            }
-        }
-
-        // Очистка дисплея
-        function clearDisplay() {
-            expression = '';
-            updateDisplay();
-        }
-
-        // Удаление последнего символа
-        function backspace() {
-            expression = expression.slice(0, -1);
-            updateDisplay();
-        }
-
-        // Обновление дисплея
-        function updateDisplay(value = null) {
-            const display = document.getElementById('display');
-            display.textContent = value || expression || '0';
+            // Вывод результата
+            document.getElementById('result').innerHTML = `Количество компонента B: ${componentB.toFixed(2)} г`;
         }
     </script>
 </body>
