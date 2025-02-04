@@ -56,175 +56,171 @@
             text-align: right;
         }
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+        .input-fields {
+            margin-bottom: 20px;
         }
 
-        .button {
-            background: linear-gradient(145deg, #f0f0f0, #d9d9d9);
+        .input-fields label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .input-fields input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .input-fields input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .calculate-button {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 30px;
             border: none;
             border-radius: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.2s;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        .button:hover {
+        .calculate-button:hover {
             transform: scale(1.05);
         }
 
-        .button:active {
+        .calculate-button:active {
             transform: scale(0.95);
             box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        .button.operator {
-            background: linear-gradient(145deg, #ff9500, #e68a00);
-            color: white;
-        }
-
-        .button.clear {
-            background: linear-gradient(145deg, #ff3b30, #e63329);
-            color: white;
-        }
-
-        .button.equal {
-            background: linear-gradient(145deg, #34c759, #2da94f);
-            color: white;
-            grid-column: span 2; /* Кнопка "=" занимает два места */
-        }
-
-        .button.backspace {
-            background: linear-gradient(145deg, #555, #777);
-            color: white;
-        }
-
-        .button.zero {
-            grid-column: span 2; /* Кнопка "0" занимает два места */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #28a745;
         }
 
         @media (max-width: 480px) {
             .calculator {
-                padding: 15px;
+                padding: 20px;
             }
             .display {
                 font-size: 1.6rem;
                 height: 50px;
             }
-            .button {
-                font-size: 1.2rem;
-                height: 50px;
+            .calculate-button {
+                font-size: 1rem;
+                padding: 12px 25px;
             }
         }
     </style>
 </head>
 <body>
     <div class="calculator">
-        <h1>Калькулятор</h1>
-        <div class="display" id="display">0</div>
-        <div class="buttons">
-            <button class="button clear" onclick="clearDisplay()">C</button>
-            <button class="button backspace" onclick="backspace()">←</button>
-            <button class="button operator" onclick="appendOperator('%')">%</button>
-            <button class="button operator" onclick="appendOperator('÷')">÷</button>
-
-            <button class="button" onclick="appendNumber('7')">7</button>
-            <button class="button" onclick="appendNumber('8')">8</button>
-            <button class="button" onclick="appendNumber('9')">9</button>
-            <button class="button operator" onclick="appendOperator('×')">×</button>
-
-            <button class="button" onclick="appendNumber('4')">4</button>
-            <button class="button" onclick="appendNumber('5')">5</button>
-            <button class="button" onclick="appendNumber('6')">6</button>
-            <button class="button operator" onclick="appendOperator('-')">−</button>
-
-            <button class="button" onclick="appendNumber('1')">1</button>
-            <button class="button" onclick="appendNumber('2')">2</button>
-            <button class="button" onclick="appendNumber('3')">3</button>
-            <button class="button operator" onclick="appendOperator('+')">+</button>
-
-            <button class="button zero" onclick="appendNumber('0')">0</button>
-            <button class="button" onclick="appendNumber('.')">.</button>
-            <button class="button equal" onclick="calculateResult()">=</button>
+        <h1>Расчет компонентов A и B</h1>
+        <p>Выберите соотношение компонентов:</p>
+        <select id="ratio">
+            <option value="100:2">100:2</option>
+            <option value="10:1">10:1</option>
+            <option value="1:2.5">1:2.5</option>
+            <option value="60:40">60:40</option>
+        </select>
+        <br><br>
+        <div id="inputFields" class="input-fields">
+            <!-- Поля для ввода будут динамически меняться -->
         </div>
+        <button class="calculate-button" onclick="calculate()">Рассчитать</button>
+
+        <div class="result" id="result"></div>
     </div>
 
     <script>
-        let currentInput = '';
-        let previousInput = '';
-        let operator = '';
+        // Функция для обновления полей ввода в зависимости от выбранного соотношения
+        function updateInputFields() {
+            const ratio = document.getElementById('ratio').value;
+            const inputFieldsDiv = document.getElementById('inputFields');
+            inputFieldsDiv.innerHTML = ''; // Очищаем предыдущие поля
 
-        function appendNumber(number) {
-            if (currentInput.length >= 12) return; // Ограничение на длину числа
-            currentInput += number;
-            updateDisplay();
-        }
-
-        function appendOperator(op) {
-            if (currentInput === '') return;
-            if (previousInput !== '') {
-                calculateResult();
+            if (ratio === "100:2" || ratio === "10:1") {
+                // Для соотношений 100:2 и 10:1
+                inputFieldsDiv.innerHTML = `
+                    <label for="componentA">Количество компонента A (г):</label>
+                    <input type="number" id="componentA" placeholder="Введите вес">
+                `;
+            } else if (ratio === "1:2.5" || ratio === "60:40") {
+                // Для соотношений 1:2.5 и 60:40
+                inputFieldsDiv.innerHTML = `
+                    <label for="totalWeight">Общий вес (г):</label>
+                    <input type="number" id="totalWeight" placeholder="Введите общий вес">
+                `;
             }
-            operator = op;
-            previousInput = currentInput;
-            currentInput = '';
         }
 
-        function calculateResult() {
-            if (currentInput === '' || previousInput === '') return;
-            const prev = parseFloat(previousInput);
-            const current = parseFloat(currentInput);
-            let result = 0;
+        // Функция расчета
+        function calculate() {
+            const ratio = document.getElementById('ratio').value;
 
-            switch (operator) {
-                case '+':
-                    result = prev + current;
-                    break;
-                case '−':
-                    result = prev - current;
-                    break;
-                case '×':
-                    result = prev * current;
-                    break;
-                case '÷':
-                    result = prev / current;
-                    break;
-                case '%':
-                    result = (prev * current) / 100;
-                    break;
-                default:
+            if (ratio === "100:2" || ratio === "10:1") {
+                // Расчет для соотношений 100:2 и 10:1
+                const componentA = parseFloat(document.getElementById('componentA').value);
+
+                if (isNaN(componentA) || componentA <= 0) {
+                    document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
                     return;
+                }
+
+                let ratioA, ratioB;
+                if (ratio === "100:2") {
+                    ratioA = 100;
+                    ratioB = 2;
+                } else if (ratio === "10:1") {
+                    ratioA = 10;
+                    ratioB = 1;
+                }
+
+                const componentB = (componentA * ratioB) / ratioA;
+                document.getElementById('result').innerHTML = `Компонент B: ${componentB.toFixed(2)} г`;
+            } else if (ratio === "1:2.5" || ratio === "60:40") {
+                // Расчет для соотношений 1:2.5 и 60:40
+                const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+
+                if (isNaN(totalWeight) || totalWeight <= 0) {
+                    document.getElementById('result').innerHTML = "Ошибка: Введите положительное число.";
+                    return;
+                }
+
+                let ratioA, ratioB;
+                if (ratio === "1:2.5") {
+                    ratioA = 1;
+                    ratioB = 2.5;
+                } else if (ratio === "60:40") {
+                    ratioA = 60;
+                    ratioB = 40;
+                }
+
+                const totalRatio = ratioA + ratioB;
+                const weightA = (totalWeight * ratioA) / totalRatio;
+                const weightB = (totalWeight * ratioB) / totalRatio;
+
+                document.getElementById('result').innerHTML = 
+                    `Компонент A: ${weightA.toFixed(2)} г<br>` +
+                    `Компонент B: ${weightB.toFixed(2)} г`;
             }
-
-            currentInput = result.toString();
-            operator = '';
-            previousInput = '';
-            updateDisplay();
         }
 
-        function clearDisplay() {
-            currentInput = '';
-            previousInput = '';
-            operator = '';
-            updateDisplay();
-        }
-
-        function backspace() {
-            currentInput = currentInput.slice(0, -1);
-            updateDisplay();
-        }
-
-        function updateDisplay() {
-            document.getElementById('display').innerText = currentInput || '0';
-        }
+        // Инициализация полей ввода при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            updateInputFields();
+            document.getElementById('ratio').addEventListener('change', updateInputFields);
+        });
     </script>
 </body>
 </html>
