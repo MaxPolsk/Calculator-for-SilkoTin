@@ -39,7 +39,7 @@
             margin-right: 10px;
         }
 
-        input {
+        input, select {
             padding: 5px;
             font-size: 16px;
             width: 100px;
@@ -64,21 +64,19 @@
             font-size: 18px;
             color: #28a745;
         }
-
-        /* Графические стили для кнопок */
-        button {
-            background-image: url('https://img.icons8.com/color/48/000000/calculate.png'); /* Иконка для кнопки */
-            background-size: 24px;
-            background-repeat: no-repeat;
-            background-position: left center;
-            padding-left: 30px;
-        }
     </style>
 </head>
 <body>
     <div class="calculator">
         <h1>Расчет компонентов A и B</h1>
-        <p>Соотношение A:B = 100:2</p>
+        <p>Выберите соотношение компонентов:</p>
+        <select id="ratio">
+            <option value="100:2">100:2</option>
+            <option value="60:40">60:40</option>
+            <option value="1:2.5">1:2.5</option>
+            <option value="10:1">10:1</option>
+        </select>
+        <br><br>
         <label for="componentA">Количество компонента A (г):</label>
         <input type="number" id="componentA" placeholder="Введите вес">
         <button onclick="calculateComponentB()">Рассчитать</button>
@@ -97,9 +95,34 @@
                 return;
             }
 
+            // Получаем выбранное соотношение
+            const ratio = document.getElementById('ratio').value;
+
+            let ratioA, ratioB;
+            switch (ratio) {
+                case "100:2":
+                    ratioA = 100;
+                    ratioB = 2;
+                    break;
+                case "60:40":
+                    ratioA = 60;
+                    ratioB = 40;
+                    break;
+                case "1:2.5":
+                    ratioA = 1;
+                    ratioB = 2.5;
+                    break;
+                case "10:1":
+                    ratioA = 10;
+                    ratioB = 1;
+                    break;
+                default:
+                    ratioA = 100;
+                    ratioB = 2;
+            }
+
             // Расчет компонента B по формуле
-            const ratioA = 100;
-            const ratioB = 2;
+            const totalRatio = ratioA + ratioB;
             const componentB = (componentA * ratioB) / ratioA;
 
             // Вывод результата
