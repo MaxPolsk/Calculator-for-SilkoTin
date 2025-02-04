@@ -13,21 +13,20 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #6e8efb, #a777e3); /* Градиентный фон */
+            background: url('https://cdn.pixabay.com/photo/2023/03/15/12/34/background-7853698_1280.jpg') no-repeat center center fixed; /* Фоновое изображение */
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
         .calculator {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 450px;
             text-align: center;
             overflow: hidden;
+            position: relative;
         }
 
         h1 {
@@ -85,6 +84,8 @@
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.2s;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
         .calculate-button:hover {
@@ -100,6 +101,47 @@
             margin-top: 20px;
             font-size: 18px;
             color: #28a745;
+        }
+
+        /* Графические элементы для кнопок */
+        .calculate-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .calculate-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Иконки для кнопок */
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .icon-clear {
+            background: url('https://img.icons8.com/ios-glyphs/30/ffffff/clear-symbol.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        .icon-backspace {
+            background: url('https://img.icons8.com/ios-glyphs/30/ffffff/backspace.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        .icon-equal {
+            background: url('https://img.icons8.com/ios-glyphs/30/ffffff/equal-sign.png') no-repeat center center;
+            background-size: contain;
         }
 
         @media (max-width: 480px) {
@@ -131,7 +173,9 @@
         <div id="inputFields" class="input-fields">
             <!-- Поля для ввода будут динамически меняться -->
         </div>
-        <button class="calculate-button" onclick="calculate()">Рассчитать</button>
+        <button class="calculate-button" onclick="calculate()">
+            <span class="icon icon-equal"></span> Рассчитать
+        </button>
 
         <div class="result" id="result"></div>
     </div>
