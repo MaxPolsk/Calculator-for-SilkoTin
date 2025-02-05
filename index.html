@@ -42,21 +42,24 @@
             margin-bottom: 15px;
         }
 
-        .display {
-            background-color: #222;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 1.8rem;
-            padding: 15px;
+        select {
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            margin-bottom: 20px;
-            height: 60px;
-            overflow-x: auto;
-            white-space: nowrap;
-            text-align: right;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
         .input-fields {
+            margin-top: 20px;
             margin-bottom: 20px;
         }
 
@@ -112,9 +115,9 @@
             .calculator {
                 padding: 20px;
             }
-            .display {
-                font-size: 1.6rem;
-                height: 50px;
+            select {
+                font-size: 16px;
+                padding: 8px;
             }
             .calculate-button {
                 font-size: 1rem;
@@ -126,12 +129,12 @@
 <body>
     <div class="calculator">
         <h1>Расчет компонентов A и B</h1>
-        <p>Выберите соотношение компонентов:</p>
+        <p>Выберите материал:</p>
         <select id="ratio">
-            <option value="100:2">100:2</option>
-            <option value="10:1">10:1</option>
-            <option value="1:2.5">1:2.5</option>
-            <option value="60:40">60:40</option>
+            <option value="100:2">Силикон (100:2)</option>
+            <option value="10:1">Эпоксидный клей (10:1)</option>
+            <option value="60:40">Литьевой пластик (60:40)</option>
+            <option value="1:2.5">Акриловый гипс (1:2.5)</option>
         </select>
         <br><br>
         <div id="inputFields" class="input-fields">
@@ -143,20 +146,20 @@
     </div>
 
     <script>
-        // Функция для обновления полей ввода в зависимости от выбранного соотношения
+        // Функция для обновления полей ввода в зависимости от выбранного материала
         function updateInputFields() {
             const ratio = document.getElementById('ratio').value;
             const inputFieldsDiv = document.getElementById('inputFields');
             inputFieldsDiv.innerHTML = ''; // Очищаем предыдущие поля
 
             if (ratio === "100:2" || ratio === "10:1") {
-                // Для соотношений 100:2 и 10:1
+                // Для материалов с соотношениями 100:2 и 10:1
                 inputFieldsDiv.innerHTML = `
                     <label for="componentA">Количество компонента A (г):</label>
                     <input type="number" id="componentA" placeholder="Введите вес">
                 `;
-            } else if (ratio === "1:2.5" || ratio === "60:40") {
-                // Для соотношений 1:2.5 и 60:40
+            } else if (ratio === "60:40" || ratio === "1:2.5") {
+                // Для материалов с соотношениями 60:40 и 1:2.5
                 inputFieldsDiv.innerHTML = `
                     <label for="totalWeight">Общий вес (г):</label>
                     <input type="number" id="totalWeight" placeholder="Введите общий вес">
@@ -188,8 +191,8 @@
 
                 const componentB = (componentA * ratioB) / ratioA;
                 document.getElementById('result').innerHTML = `Компонент B: ${componentB.toFixed(2)} г`;
-            } else if (ratio === "1:2.5" || ratio === "60:40") {
-                // Расчет для соотношений 1:2.5 и 60:40
+            } else if (ratio === "60:40" || ratio === "1:2.5") {
+                // Расчет для соотношений 60:40 и 1:2.5
                 const totalWeight = parseFloat(document.getElementById('totalWeight').value);
 
                 if (isNaN(totalWeight) || totalWeight <= 0) {
@@ -198,12 +201,12 @@
                 }
 
                 let ratioA, ratioB;
-                if (ratio === "1:2.5") {
-                    ratioA = 1;
-                    ratioB = 2.5;
-                } else if (ratio === "60:40") {
+                if (ratio === "60:40") {
                     ratioA = 60;
                     ratioB = 40;
+                } else if (ratio === "1:2.5") {
+                    ratioA = 1;
+                    ratioB = 2.5;
                 }
 
                 const totalRatio = ratioA + ratioB;
