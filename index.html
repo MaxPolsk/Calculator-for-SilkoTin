@@ -21,7 +21,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #808000; /* Оливковый фон */
+            background: #556B2F; /* Темно-оливковый фон */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -29,7 +29,10 @@
 
         .logo {
             margin-bottom: 20px;
-            padding: 10px; /* Отступ вокруг логотипа */
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Белый фон для логотипа */
+            border-radius: 10px; /* Закругленные углы */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень для выделения */
         }
 
         .calculator {
@@ -44,7 +47,8 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px; /* Увеличенный шрифт */
+            font-weight: bold; /* Жирный шрифт */
             color: #333;
             margin-bottom: 15px;
         }
@@ -73,6 +77,7 @@
         .input-fields label {
             font-size: 18px;
             margin-right: 10px;
+            font-weight: bold; /* Жирный шрифт для меток */
         }
 
         .input-fields input {
@@ -116,6 +121,7 @@
             margin-top: 20px;
             font-size: 18px;
             color: #28a745;
+            font-weight: bold; /* Жирный шрифт для результата */
         }
 
         @media (max-width: 480px) {
@@ -136,7 +142,7 @@
 <body>
     <!-- Логотип -->
     <div class="logo">
-        <img src="логотип-5.png" alt="Логотип" style="width: 130px; height: auto;">
+        <img src="логотип-5.png" alt="Логотип" style="width: 150px; height: auto;"> <!-- Увеличенный логотип -->
     </div>
 
     <!-- Калькулятор -->
